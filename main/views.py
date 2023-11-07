@@ -18,7 +18,6 @@ def index(request):
     else:
         button_label = 'Like'
 
-    print(like_count)
     return render(request, 'index.html', {'user_id': user_id, 'article_id': article_id, 'like_count': like_count,
                                           'button_label': button_label})
 
