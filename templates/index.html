@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+<form action="{% url 'like' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ user_id }}">
+    <input type="hidden" name="article_id" value="{{ article_id }}">
+    <span id="like-count">{{ like_count }}</span> <button type="submit" id="button_label">{{ button_label }}</button>
+</form>
+
+
+<script>
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var formData = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: formData,
+            success: function(response) {
+                var newLikeCount = response.like_count;  // сервер возвращает новое количество лайков.
+                var newButton_label = response.button_label;  // сервер возвращает новое имя кнопки
+                var new_f_Button_label = response.f_button_label;  // сервер возвращает новое имя кнопки
+                $('#like-count').text(newLikeCount);  // Обновляет отображаемое количество лайков.
+                $('#button_label').text(newButton_label);  // Обновляет отображаемое имя кнопки.
+                $('#f_button_label').text(new_f_Button_label);  // Обновляет отображаемое имя кнопки.
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+</script>
+
+
+
+</body>
+</html>
