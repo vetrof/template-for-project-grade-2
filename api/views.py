@@ -7,7 +7,7 @@ from api.serializers import ArticleSerializer
 from main.models import Article
 from rest_framework.permissions import IsAuthenticated
 
-@csrf_exempt
+# @csrf_exempt
 class ArticleListViewSet(ModelViewSet):
     # http_method_names = ['get']
     serializer_class = ArticleSerializer
