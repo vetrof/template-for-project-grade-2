@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vq*xhj0wy0z@g#nxec5)9fn4x*)fspdy7*$5^4%p93pnru3pnz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
-    'django_extensions'
+    'django_extensions',
+    'django_summernote',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'api',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +88,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "postgres",
+#         "USER": "postgres",
+#         "PASSWORD": "postgres",
+#         "HOST": "db",  # set in docker-compose.yml
+#         "PORT": 5432,  # default postgres port
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -131,3 +146,52 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SUMMERNOTE_THEME = 'bs5'
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+            # As an example, using Summernote Air-mode
+            'airMode': False,
+
+            # Change editor size
+            'width': '100%',
+            # 'height': '480',
+
+            # Use proper language setting automatically (default)
+            'lang': None,
+
+
+           'codemirror': {
+                'enabled': True,
+                'mode': 'htmlmixed',
+                'lineNumbers': True,
+                'theme': 'monokai',
+            },
+
+            # Toolbar customization
+            # https://summernote.org/deep-dive/#custom-toolbar-popover
+            'toolbar': [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+            ],}
+
+
+}
+
+# celery
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+

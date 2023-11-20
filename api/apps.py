@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class MainConfig(AppConfig):
+class ApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'main'
+    name = 'api'
 
     def ready(self):
-        import main.signals
+        import api.signals

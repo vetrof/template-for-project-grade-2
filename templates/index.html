@@ -5,46 +5,78 @@
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 
-<form action="{% url 'like' %}" method="post">
+{# like link #}
+<span id="like-count">{{ like_count }}</span>
+<span><a href="" id="like_link">Like</a></span>
+
+{# text edit form #}
+<h2>Edit Article</h2>
+<form action="" method="post" id="form_edit">
     {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user_id }}">
-    <input type="hidden" name="article_id" value="{{ article_id }}">
-    <span id="like-count">{{ like_count }}</span> <button type="submit" id="button_label">{{ button_label }}</button>
+    <button type="submit">Save</button>
+    {{ form.text|safe }}
 </form>
 
 
+{#>>>>>>>>>>>>>>>>>SCRIPTS-AREA<<<<<<<<<<<<<#}
+
+{# like link script #}
 <script>
-$(document).ready(function() {
-    $('form').submit(function(event) {
-        event.preventDefault();
+    $(document).ready(function() {
+        $('#like_link').click(function(event) {
+            event.preventDefault(); // Предотвратить переход по ссылке по умолчанию
 
-        var form = $(this);
-        var formData = form.serialize();
+            var link = $(this);
+            var user_id = "{{ user_id }}"; // Получаем значения user_id и article_id из контекста шаблона
+            var article_id = "{{ article_id }}";
+            var csrf_token = "{{ csrf_token }}"; // Получаем CSRF-токен из контекста шаблона
 
-        $.ajax({
-            type: 'POST',
-            url: form.attr('action'),
-            data: formData,
-            success: function(response) {
-                var newLikeCount = response.like_count;  // сервер возвращает новое количество лайков.
-                var newButton_label = response.button_label;  // сервер возвращает новое имя кнопки
-                var new_f_Button_label = response.f_button_label;  // сервер возвращает новое имя кнопки
-                $('#like-count').text(newLikeCount);  // Обновляет отображаемое количество лайков.
-                $('#button_label').text(newButton_label);  // Обновляет отображаемое имя кнопки.
-                $('#f_button_label').text(new_f_Button_label);  // Обновляет отображаемое имя кнопки.
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
+            $.ajax({
+                type: 'POST',
+                url: '{% url "like" %}',
+                data: {'user_id': user_id, 'article_id': article_id},
+                headers: {'X-CSRFToken': csrf_token}, // Передаем CSRF-токен в заголовке
+                success: function(response) {
+                    // Обработка успешного ответа от сервера
+                    var newLikeCount = response.like_count;
+                    var newButtonLabel = response.button_label;
+
+                    // Обновляем отображаемые данные
+                    $('#like-count').text(newLikeCount);
+                    link.text(newButtonLabel);
+                },
+                error: function(xhr, status, error) {
+                    // Обработка ошибок
+                    console.error(error);
+                }
+            });
         });
     });
-});
 </script>
 
+{# form text edit script action button save #}
+<script>
+    $(document).ready(function() {
+        $('#form_edit').submit(function(event) {
+            event.preventDefault(); // Предотвратить отправку формы по умолчанию
 
+            var form = $(this);
+            var formData = form.serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: formData,
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

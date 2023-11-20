@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <!-- Подключение Bootstrap для стилей -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Tzjw4XnZlRlDBfz5t3t5Fp8NwRG7q9U3h3K1Ic7IBMOFBy/iJxIM+Df5L/zPbpda" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Product List</h1>
+        <ul id="productList" class="list-group mt-3">
+            <!-- Здесь будут отображены товары -->
+        </ul>
+    </div>
+
+    <!-- Подключение jQuery и Bootstrap JS для обработки событий и стилей -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-o5Fv8P0W1tF75EuG0MvRlTlUpD0qzP0Dl+uZlq5YF6d6Uigaf4+ifcRA2h+oK3J" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-e7N/E5fzoI6TzDlHDK9/ed9TR3yBb4zQQ1zNSp8y5eaEKkCuO3f+hxF/ZQUZZZ" crossorigin="anonymous"></script>
+
+    <script>
+        // Функция для загрузки данных о товарах с API
+        function loadProducts() {
+            // Замените URL_API на фактический URL вашего API
+            const apiUrl = 'URL_API';
+
+            // Используем jQuery для выполнения GET-запроса к API
+            $.get(apiUrl, function(data) {
+                // Очищаем текущий список товаров
+                $('#productList').empty();
+
+                // Итерируем по каждому товару и добавляем его в список
+                data.forEach(function(product) {
+                    const listItem = `<li class="list-group-item">
+                                        <h5>${product.title}</h5>
+                                        <p>${product.description}</p>
+                                      </li>`;
+                    $('#productList').append(listItem);
+                });
+            });
+        }
+
+        // Вызываем функцию загрузки данных при загрузке страницы
+        $(document).ready(function() {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
