@@ -3,7 +3,9 @@ from django.db import models
 
 
 class Article(models.Model):
+    title = models.CharField(max_length=100)
     text = models.TextField()
+    image_cover = models.ImageField(upload_to='covers', blank=True)
 
 
 class Like(models.Model):

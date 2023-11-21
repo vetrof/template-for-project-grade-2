@@ -19,7 +19,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['id', 'text', 'like_count']
+        fields = ['id', 'title', 'image_cover', 'text', 'like_count']
 
     def get_like_count(self, article):
         return Like.objects.filter(article=article).count()
