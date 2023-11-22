@@ -1,11 +1,6 @@
 from rest_framework import serializers
 
-from main.models import Article, Like
-
-
-# TODO сделать вывод лайков по пользователю
-# TODO сделать добавление лайка
-# TODO сделать редактирование статьи
+from main.models import Article, Like, Genre3
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -14,13 +9,23 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ['user', 'article']
 
 
+class Genre3Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre3
+        fields = ['id', 'name',]
+
+
 class ArticleSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
+    genre_types = Genre3Serializer()
 
     class Meta:
         model = Article
-        fields = ['id', 'title', 'image_cover', 'text', 'like_count']
+        fields = ['id', 'title', 'image_cover', 'text',  'genre_types', 'like_count', 'file']
 
-    def get_like_count(self, article):
-        return Like.objects.filter(article=article).count()
+    @staticmethod
+    def get_like_count(obj):
+        return obj.like_set.all().count()
+
+
 

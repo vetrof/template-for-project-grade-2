@@ -23,6 +23,10 @@
     {{ form.text|safe }}
 </form>
 
+{% if article.file %}
+    <p><a href="{{ article.file.url }}" download>Скачать файл</a></p>
+  {% endif %}
+
 
 {#>>>>>>>>>>>>>>>>>SCRIPTS-AREA<<<<<<<<<<<<<#}
 
