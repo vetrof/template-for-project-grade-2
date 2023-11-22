@@ -195,3 +195,5 @@ REST_FRAMEWORK = {
     ]
 }
 
+CSRF_TRUSTED_ORIGINS = ["https://43c1-5-34-1-25.ngrok-free.app"]
+
