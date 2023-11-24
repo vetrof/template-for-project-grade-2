@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import index, like
+from main.views import like
 from.views import ArticleListViewSet
 from rest_framework import routers
 

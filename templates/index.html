@@ -11,76 +11,7 @@
 </head>
 <body>
 
-{# like link #}
-<span id="like-count">{{ like_count }}</span>
-<span><a href="" id="like_link">Like</a></span>
-
-{# text edit form #}
-<h2>Edit Article</h2>
-<form action="" method="post" id="form_edit">
-    {% csrf_token %}
-    <button type="submit">Save</button>
-    {{ form.text|safe }}
-</form>
-
-{% if article.file %}
-    <p><a href="{{ article.file.url }}" download>Скачать файл</a></p>
-  {% endif %}
-
-
-{#>>>>>>>>>>>>>>>>>SCRIPTS-AREA<<<<<<<<<<<<<#}
-
-{# like link script #}
-<script>
-    $(document).ready(function() {
-        $('#like_link').click(function(event) {
-            event.preventDefault(); // Предотвратить переход по ссылке по умолчанию
-
-            var link = $(this);
-            var user_id = "{{ user_id }}"; // Получаем значения user_id и article_id из контекста шаблона
-            var article_id = "{{ article_id }}";
-            var csrf_token = "{{ csrf_token }}"; // Получаем CSRF-токен из контекста шаблона
-
-            $.ajax({
-                type: 'POST',
-                url: '{% url "like" %}',
-                data: {'user_id': user_id, 'article_id': article_id},
-                headers: {'X-CSRFToken': csrf_token}, // Передаем CSRF-токен в заголовке
-                success: function(response) {
-                    // Обработка успешного ответа от сервера
-                    var newLikeCount = response.like_count;
-                    var newButtonLabel = response.button_label;
-
-                    // Обновляем отображаемые данные
-                    $('#like-count').text(newLikeCount);
-                    link.text(newButtonLabel);
-                },
-                error: function(xhr, status, error) {
-                    // Обработка ошибок
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-{# form text edit script action button save #}
-<script>
-    $(document).ready(function() {
-        $('#form_edit').submit(function(event) {
-            event.preventDefault(); // Предотвратить отправку формы по умолчанию
-
-            var form = $(this);
-            var formData = form.serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: formData,
-            });
-        });
-    });
-</script>
+{{ articles }}
 
 </body>
 </html>

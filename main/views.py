@@ -2,15 +2,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView
+from django.core.paginator import Paginator
 
 from main.forms import ArticleForm
 from main.models import Like, Article
 
 
+def list(request):
+    articles = Article.objects.all()
+    return render(request, 'index.html', {'articles': articles})
 
-def index(request):
 
-
+def detail(request):
     article_id = 1
     user_id = request.user.id
     article = Article.objects.get(id=article_id)
@@ -43,7 +46,7 @@ def index(request):
                'article': article
                }
 
-    return render(request, 'index.html', context)
+    return render(request, 'detail.html', context)
 
 
 def like(request):
@@ -69,6 +72,6 @@ def like(request):
 
     if previous_page and previous_page != request.path_info:
         return redirect(previous_page)
-    return redirect('index_page')
+    return redirect('detail.html')
 
 

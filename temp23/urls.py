@@ -23,7 +23,7 @@ from drf_yasg.views import get_schema_view  # new
 from rest_framework import permissions
 from rest_framework.authtoken import views
 
-from main.views import index, like
+from main.views import detail, like, list
 
 # swagger
 schema_view = get_schema_view(
@@ -41,9 +41,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('detail/', detail, name='detail'),
     path('like/', like, name='like'),
     path('api/', include('api.urls')),
+    path('', list, name='list'),
+
 
     # swagger
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

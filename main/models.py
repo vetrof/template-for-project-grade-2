@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Genre3(models.Model):
@@ -15,6 +16,9 @@ class Article(models.Model):
     text = models.TextField()
     image_cover = models.ImageField(upload_to='covers', blank=True)
     file = models.FileField(upload_to='files', blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('detail', )
 
 
 class Like(models.Model):
