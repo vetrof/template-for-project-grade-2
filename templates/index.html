@@ -11,7 +11,13 @@
 </head>
 <body>
 
-{{ articles }}
+{% for article in articles %}
+
+     <a href=" {{ article.get_absolute_url }} " target="_blank">  {{ article.title }}</a> <br>
+
+{% endfor %}
+
+{% include "pagination.html" with page=articles %}
 
 </body>
 </html>

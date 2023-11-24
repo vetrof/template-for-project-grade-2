@@ -18,7 +18,7 @@ class Article(models.Model):
     file = models.FileField(upload_to='files', blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('detail', )
+        return reverse('detail', args=(self.id,))
 
 
 class Like(models.Model):

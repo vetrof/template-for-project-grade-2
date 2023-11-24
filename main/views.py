@@ -9,12 +9,18 @@ from main.models import Like, Article
 
 
 def list(request):
-    articles = Article.objects.all()
+    articles_list = Article.objects.all()
+
+    # pagination
+    paginator = Paginator(articles_list, 2)
+    page_number = request.GET.get('page', 1)
+    articles = paginator.page(page_number)
+
     return render(request, 'index.html', {'articles': articles})
 
 
-def detail(request):
-    article_id = 1
+def detail(request, id):
+    article_id = id
     user_id = request.user.id
     article = Article.objects.get(id=article_id)
     like_count = article.like_set.count()
